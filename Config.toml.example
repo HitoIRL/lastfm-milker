@@ -1,0 +1,14 @@
+# Configuration related to last.fm api / application
+[api]
+url = "http://ws.audioscrobbler.com/2.0"
+key = "xxx"
+secret = "xxx"
+
+[scrobbler]
+cooldown = 1500 # in milliseconds, recommended is 1500
+songs = [
+    # make sure both values are correct or else errors will be thrown
+    { artist = "$uicideboy$", title = "LTE" },
+    { artist = "$uicideboy$", title = "Us Vs. Them" },
+    { artist = "$uicideboy$", title = "Do You Believe In God?" },
+]
