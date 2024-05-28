@@ -10,5 +10,5 @@ songs = [
     # make sure both values are correct or else errors will be thrown
     { artist = "$uicideboy$", title = "LTE" },
     { artist = "$uicideboy$", title = "Us Vs. Them" },
-    { artist = "$uicideboy$", title = "Do You Believe In God?" },
+    { artist = "$uicideboy$", title = "Antarctica" },
 ]

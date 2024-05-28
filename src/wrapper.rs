@@ -80,13 +80,13 @@ impl LastFmClient {
         Ok(res.token)
     }
 
-    pub async fn session(&self, token: &str) -> reqwest::Result<String> {
+    pub async fn session(&self, token: &str) -> reqwest::Result<SessionResponse> {
         let signature = md5_hash(&format!(
             "api_key{}methodauth.getSessiontoken{token}{}",
             self.key, self.secret
         ));
 
-        let res: SessionResponse = self
+        let res = self
             .http
             .post(&self.url)
             .query(&[
@@ -98,10 +98,10 @@ impl LastFmClient {
             ])
             .send()
             .await?
-            .json()
-            .await?;
+            .json::<SessionResponse>()
+            .await;
 
-        Ok(res.session.key)
+        res
     }
 }
 
@@ -123,13 +123,14 @@ struct TokenResponse {
 }
 
 #[derive(Deserialize)]
-struct Session {
-    key: String,
+pub struct Session {
+    pub key: String,
+
     #[serde(flatten)]
     _extra: HashMap<String, serde_json::Value>,
 }
 
 #[derive(Deserialize)]
-struct SessionResponse {
-    session: Session,
+pub struct SessionResponse {
+    pub session: Session,
 }

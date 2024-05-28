@@ -26,8 +26,7 @@ async fn main() -> anyhow::Result<()> {
     tokio::time::sleep(Duration::from_secs(10)).await;
     // TODO: callback
 
-    let session = client.session(&token).await?;
-    println!("Session: {session}");
+    let session = client.session(&token).await.context("Failed to authenticate, did you allow access?")?;
 
     let mut interval = time::interval(config.scrobbler.cooldown);
     let mut total_scrobbles = 0;
@@ -39,7 +38,7 @@ async fn main() -> anyhow::Result<()> {
             .choose(&mut rand::thread_rng())
             .context("You need add at least one song in config file!")?;
 
-        let res = client.track_scrobble(&session, song).await?;
+        let res = client.track_scrobble(&session.session.key, song).await?;
 
         let status_code = res.status();
         if status_code != StatusCode::OK {
